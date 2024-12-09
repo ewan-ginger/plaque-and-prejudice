@@ -1,0 +1,403 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     16834,        395]
+NotebookOptionsPosition[     16040,        371]
+NotebookOutlinePosition[     16494,        388]
+CellTagsIndexPosition[     16451,        385]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Plaque and Prejudice: Predator-Prey Model", "Title",
+ CellChangeTimes->{{3.94273949452129*^9, 
+  3.942739508811863*^9}},ExpressionUUID->"2d10f60c-98e0-6c4d-8d43-\
+7a36a3a5cf46"],
+
+Cell[CellGroupData[{
+
+Cell["Model", "Section",
+ CellChangeTimes->{{3.9427395167285023`*^9, 
+  3.9427395172163506`*^9}},ExpressionUUID->"84db393a-aaa7-584f-9724-\
+1b8a7786f998"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "ToothDecayModel", "]"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ToothDecayModel", "[", 
+    RowBox[{
+    "r_", ",", "a_", ",", "s_", ",", "c_", ",", "B0_", ",", "P0_", ",", 
+     "tMax_"}], "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"B", ",", "P", ",", "equations", ",", "solution"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"equations", "=", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"B", "'"}], "[", "t", "]"}], "==", 
+          RowBox[{
+           RowBox[{"r", " ", 
+            RowBox[{"B", "[", "t", "]"}]}], "-", 
+           RowBox[{"a", " ", 
+            RowBox[{"B", "[", "t", "]"}], " ", 
+            RowBox[{"P", "[", "t", "]"}]}]}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"P", "'"}], "[", "t", "]"}], "==", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", "s"}], " ", 
+            RowBox[{"P", "[", "t", "]"}]}], "+", 
+           RowBox[{"c", " ", 
+            RowBox[{"B", "[", "t", "]"}], " ", 
+            RowBox[{"P", "[", "t", "]"}]}]}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"B", "[", "0", "]"}], "==", "B0"}], ",", 
+         RowBox[{
+          RowBox[{"P", "[", "0", "]"}], "==", "P0"}]}], "}"}]}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"solution", "=", 
+       RowBox[{"NDSolveValue", "[", 
+        RowBox[{
+         RowBox[{"{", "equations", "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"B", ",", "P"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"t", ",", "0", ",", "tMax"}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"solution", "===", 
+         RowBox[{"{", "}"}]}], ",", 
+        RowBox[{"{", "}"}], ",", "solution"}], "]"}]}]}], "]"}]}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Module", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "solution", ",", "B", ",", "P", ",", "plot", ",", "phasePlot", ",", 
+       "streamPlot"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"solution", "=", 
+       RowBox[{"ToothDecayModel", "[", 
+        RowBox[{
+        "r", ",", "a", ",", "s", ",", "c", ",", "B0", ",", "P0", ",", 
+         "tMax"}], "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"solution", "===", 
+         RowBox[{"{", "}"}]}], ",", 
+        RowBox[{"Style", "[", 
+         RowBox[{
+         "\"\<Error: The system could not be solved.\>\"", ",", "Red", ",", 
+          "Bold"}], "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"B", ",", "P"}], "}"}], "=", "solution"}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"plot", "=", 
+          RowBox[{"Plot", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Evaluate", "[", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"B", "[", "t", "]"}], ",", 
+               RowBox[{"P", "[", "t", "]"}]}], "}"}], "]"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"t", ",", "0", ",", "tMax"}], "}"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"PlotLegends", "->", 
+             RowBox[{"{", 
+              RowBox[{
+              "\"\<Bacteria (B)\>\"", ",", "\"\<Protective Factors (P)\>\""}],
+               "}"}]}], ",", "\[IndentingNewLine]", 
+            RowBox[{"AxesLabel", "->", 
+             RowBox[{"{", 
+              RowBox[{"\"\<Time\>\"", ",", "\"\<Population\>\""}], "}"}]}], 
+            ",", "\[IndentingNewLine]", 
+            RowBox[{
+            "PlotLabel", "->", "\"\<Tooth Decay Dynamics: Time Series\>\""}], 
+            ",", "\[IndentingNewLine]", 
+            RowBox[{"PlotRange", "->", "All"}], ",", 
+            RowBox[{"ImageSize", "->", "Medium"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"phasePlot", "=", 
+          RowBox[{"ParametricPlot", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Evaluate", "[", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"B", "[", "t", "]"}], ",", 
+               RowBox[{"P", "[", "t", "]"}]}], "}"}], "]"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"t", ",", "0", ",", "tMax"}], "}"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"AxesLabel", "->", 
+             RowBox[{"{", 
+              RowBox[{
+              "\"\<Bacteria (B)\>\"", ",", "\"\<Protective Factors (P)\>\""}],
+               "}"}]}], ",", "\[IndentingNewLine]", 
+            RowBox[{"PlotLabel", "->", "\"\<Phase Plot: B vs. P\>\""}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"PlotRange", "->", "All"}], ",", 
+            RowBox[{"ImageSize", "->", "Medium"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"streamPlot", "=", 
+          RowBox[{"StreamPlot", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"r", " ", "x"}], "-", 
+               RowBox[{"a", " ", "x", " ", "y"}]}], ",", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"-", "s"}], " ", "y"}], "+", 
+               RowBox[{"c", " ", "x", " ", "y"}]}]}], "}"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"x", ",", "0", ",", 
+              RowBox[{"Max", "[", 
+               RowBox[{"B0", ",", "100"}], "]"}]}], "}"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"y", ",", "0", ",", 
+              RowBox[{"Max", "[", 
+               RowBox[{"P0", ",", "50"}], "]"}]}], "}"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"StreamPoints", "->", "Fine"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"AxesLabel", "->", 
+             RowBox[{"{", 
+              RowBox[{
+              "\"\<Bacteria (B)\>\"", ",", "\"\<Protective Factors (P)\>\""}],
+               "}"}]}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+            "PlotLabel", "->", "\"\<Stream Plot: Phase Space Flow\>\""}], ",",
+             "\[IndentingNewLine]", 
+            RowBox[{"PlotRange", "->", "All"}], ",", 
+            RowBox[{"ImageSize", "->", "Medium"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"Grid", "[", 
+          RowBox[{"{", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"{", "plot", "}"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"{", "phasePlot", "}"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"{", "streamPlot", "}"}]}], "\[IndentingNewLine]", "}"}], 
+          "]"}]}]}], "]"}]}]}], "]"}], ",", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"r", ",", "0.5", ",", "\"\<Bacteria Growth Rate (r)\>\""}], 
+      "}"}], ",", "0.1", ",", "1", ",", "0.05", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "a", ",", "0.02", ",", "\"\<Bacteria-Protection Interaction (a)\>\""}], 
+      "}"}], ",", "0.001", ",", "0.1", ",", "0.005", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"s", ",", "0.3", ",", "\"\<Protection Decay Rate (s)\>\""}], 
+      "}"}], ",", "0.05", ",", "0.5", ",", "0.05", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "c", ",", "0.01", ",", "\"\<Protection Regeneration Rate (c)\>\""}], 
+      "}"}], ",", "0.001", ",", "0.1", ",", "0.005", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "B0", ",", "40", ",", "\"\<Initial Bacteria Population (B0)\>\""}], 
+      "}"}], ",", "10", ",", "200", ",", "10", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "P0", ",", "20", ",", "\"\<Initial Protective Factors (P0)\>\""}], 
+      "}"}], ",", "0", ",", "100", ",", "5", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"tMax", ",", "50", ",", "\"\<Simulation Time (tMax)\>\""}], 
+      "}"}], ",", "10", ",", "100", ",", "5", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"ControlPlacement", "->", "Right"}]}], "]"}]}], "Input",
+ CellChangeTimes->{3.942739530114401*^9},
+ CellLabel->"In[4]:=",ExpressionUUID->"4998d257-fd62-a440-bc2e-59f61280ca38"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`a$$ = 0.02, $CellContext`B0$$ = 
+    40, $CellContext`c$$ = 0.01, $CellContext`P0$$ = 20, $CellContext`r$$ = 
+    0.5, $CellContext`s$$ = 0.3, $CellContext`tMax$$ = 50, Typeset`show$$ = 
+    True, Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`r$$], 0.5, "Bacteria Growth Rate (r)"}, 0.1, 1, 0.05,
+       ControlType -> Manipulator}, {{
+       Hold[$CellContext`a$$], 0.02, "Bacteria-Protection Interaction (a)"}, 
+      0.001, 0.1, 0.005, ControlType -> Manipulator}, {{
+       Hold[$CellContext`s$$], 0.3, "Protection Decay Rate (s)"}, 0.05, 0.5, 
+      0.05, ControlType -> Manipulator}, {{
+       Hold[$CellContext`c$$], 0.01, "Protection Regeneration Rate (c)"}, 
+      0.001, 0.1, 0.005, ControlType -> Manipulator}, {{
+       Hold[$CellContext`B0$$], 40, "Initial Bacteria Population (B0)"}, 10, 
+      200, 10, ControlType -> Manipulator}, {{
+       Hold[$CellContext`P0$$], 20, "Initial Protective Factors (P0)"}, 0, 
+      100, 5, ControlType -> Manipulator}, {{
+       Hold[$CellContext`tMax$$], 50, "Simulation Time (tMax)"}, 10, 100, 5, 
+      ControlType -> Manipulator}}, Typeset`size$$ = {
+    421.9170299965995, {325.44607662906907`, 330.0316234560128}}, 
+    Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = True, 
+    Typeset`keyframeActionsQ$$ = False, Typeset`keyframeList$$ = {}}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`a$$ = 0.02, $CellContext`B0$$ = 
+        40, $CellContext`c$$ = 0.01, $CellContext`P0$$ = 20, $CellContext`r$$ = 
+        0.5, $CellContext`s$$ = 0.3, $CellContext`tMax$$ = 50}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$, Typeset`keyframeActionsQ$$, 
+        Typeset`keyframeList$$}, "Body" :> 
+      Module[{$CellContext`solution$, $CellContext`B$, $CellContext`P$, \
+$CellContext`plot$, $CellContext`phasePlot$, $CellContext`streamPlot$}, \
+$CellContext`solution$ = $CellContext`ToothDecayModel[$CellContext`r$$, \
+$CellContext`a$$, $CellContext`s$$, $CellContext`c$$, $CellContext`B0$$, \
+$CellContext`P0$$, $CellContext`tMax$$]; If[$CellContext`solution$ === {}, 
+          Style[
+          "Error: The system could not be solved.", Red, 
+           Bold], {$CellContext`B$, $CellContext`P$} = $CellContext`solution$; \
+$CellContext`plot$ = Plot[
+             Evaluate[{
+               $CellContext`B$[$CellContext`t], 
+               $CellContext`P$[$CellContext`t]}], {$CellContext`t, 
+              0, $CellContext`tMax$$}, 
+             PlotLegends -> {"Bacteria (B)", "Protective Factors (P)"}, 
+             AxesLabel -> {"Time", "Population"}, PlotLabel -> 
+             "Tooth Decay Dynamics: Time Series", PlotRange -> All, ImageSize -> 
+             Medium]; $CellContext`phasePlot$ = ParametricPlot[
+             Evaluate[{
+               $CellContext`B$[$CellContext`t], 
+               $CellContext`P$[$CellContext`t]}], {$CellContext`t, 
+              0, $CellContext`tMax$$}, 
+             AxesLabel -> {"Bacteria (B)", "Protective Factors (P)"}, 
+             PlotLabel -> "Phase Plot: B vs. P", PlotRange -> All, ImageSize -> 
+             Medium]; $CellContext`streamPlot$ = 
+           StreamPlot[{$CellContext`r$$ $CellContext`x - $CellContext`a$$ \
+$CellContext`x $CellContext`y, (-$CellContext`s$$) $CellContext`y + \
+$CellContext`c$$ $CellContext`x $CellContext`y}, {$CellContext`x, 0, 
+              Max[$CellContext`B0$$, 100]}, {$CellContext`y, 0, 
+              Max[$CellContext`P0$$, 50]}, StreamPoints -> Fine, 
+             AxesLabel -> {"Bacteria (B)", "Protective Factors (P)"}, 
+             PlotLabel -> "Stream Plot: Phase Space Flow", PlotRange -> All, 
+             ImageSize -> Medium]; 
+          Grid[{{$CellContext`plot$}, {$CellContext`phasePlot$}, \
+{$CellContext`streamPlot$}}]]], 
+      "Specifications" :> {{{$CellContext`r$$, 0.5, 
+          "Bacteria Growth Rate (r)"}, 0.1, 1, 0.05, Appearance -> 
+         "Open"}, {{$CellContext`a$$, 0.02, 
+          "Bacteria-Protection Interaction (a)"}, 0.001, 0.1, 0.005, 
+         Appearance -> 
+         "Open"}, {{$CellContext`s$$, 0.3, "Protection Decay Rate (s)"}, 0.05,
+          0.5, 0.05, Appearance -> 
+         "Open"}, {{$CellContext`c$$, 0.01, 
+          "Protection Regeneration Rate (c)"}, 0.001, 0.1, 0.005, Appearance -> 
+         "Open"}, {{$CellContext`B0$$, 40, 
+          "Initial Bacteria Population (B0)"}, 10, 200, 10, Appearance -> 
+         "Open"}, {{$CellContext`P0$$, 20, "Initial Protective Factors (P0)"},
+          0, 100, 5, Appearance -> 
+         "Open"}, {{$CellContext`tMax$$, 50, "Simulation Time (tMax)"}, 10, 
+         100, 5, Appearance -> "Open"}}, 
+      "Options" :> {ControlPlacement -> Right}, "DefaultOptions" :> {}],
+     ImageSizeCache->{
+      726.9388520995549, {348.12903421835506`, 352.7145810452988}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{{3.9427395336544*^9, 3.9427395567291317`*^9}},
+ CellLabel->"Out[6]=",ExpressionUUID->"182b473a-c921-8346-976b-0d31722784c1"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1086.857142857143, 607.7142857142857},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+Magnification:>0.8 Inherited,
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"8d6943af-d9de-fe44-8afd-f4e9688b119c"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 183, 3, 77, "Title",ExpressionUUID->"2d10f60c-98e0-6c4d-8d43-7a36a3a5cf46"],
+Cell[CellGroupData[{
+Cell[784, 29, 154, 3, 52, "Section",ExpressionUUID->"84db393a-aaa7-584f-9724-1b8a7786f998"],
+Cell[CellGroupData[{
+Cell[963, 36, 9248, 227, 844, "Input",ExpressionUUID->"4998d257-fd62-a440-bc2e-59f61280ca38"],
+Cell[10214, 265, 5786, 101, 736, "Output",ExpressionUUID->"182b473a-c921-8346-976b-0d31722784c1"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

@@ -1,0 +1,633 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     26581,        625]
+NotebookOptionsPosition[     25785,        601]
+NotebookOutlinePosition[     26239,        618]
+CellTagsIndexPosition[     26196,        615]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Plaque and Prejudice: Extended SIR Model", "Title",
+ CellChangeTimes->{{3.942739330931959*^9, 
+  3.9427393442731304`*^9}},ExpressionUUID->"5129d3e4-b48a-0344-99e6-\
+4210a7c6e795"],
+
+Cell[CellGroupData[{
+
+Cell["Model", "Section",
+ CellChangeTimes->{{3.9427393518270683`*^9, 
+  3.942739352426138*^9}},ExpressionUUID->"523de20f-8cc7-bd41-a893-\
+7c060507e2d6"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "ToothDecayModel", "]"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"ToothDecayModel", "[", 
+    RowBox[{
+    "beta0_", ",", "alphaBeta_", ",", "omegaBeta_", ",", "gamma0_", ",", 
+     "alphaGamma_", ",", "omegaGamma_", ",", "delta0_", ",", "alphaDelta_", 
+     ",", "lambdaDelta_", ",", "rho0_", ",", "alphaRho_", ",", "omegaRho_", 
+     ",", "S0_", ",", "I0_", ",", "R0_", ",", "tMax_"}], "]"}], ":=", 
+   "\[IndentingNewLine]", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "Sus", ",", "Inf", ",", "Rem", ",", "equations", ",", "solution", ",", 
+       "beta", ",", "gamma", ",", "delta", ",", "rho"}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"beta", "[", "t_", "]"}], ":=", 
+       RowBox[{"beta0", " ", 
+        RowBox[{"(", 
+         RowBox[{"1", "+", 
+          RowBox[{"alphaBeta", " ", 
+           RowBox[{"Sin", "[", 
+            RowBox[{"omegaBeta", " ", "t"}], "]"}]}]}], ")"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"gamma", "[", "t_", "]"}], ":=", 
+       RowBox[{"gamma0", " ", 
+        RowBox[{"(", 
+         RowBox[{"1", "+", 
+          RowBox[{"alphaGamma", " ", 
+           RowBox[{"Cos", "[", 
+            RowBox[{"omegaGamma", " ", "t"}], "]"}]}]}], ")"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"delta", "[", "t_", "]"}], ":=", 
+       RowBox[{"delta0", " ", 
+        RowBox[{"(", 
+         RowBox[{"1", "+", 
+          RowBox[{"alphaDelta", " ", 
+           RowBox[{"Exp", "[", 
+            RowBox[{
+             RowBox[{"-", "lambdaDelta"}], " ", "t"}], "]"}]}]}], ")"}]}]}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"rho", "[", "t_", "]"}], ":=", 
+       RowBox[{"rho0", " ", 
+        RowBox[{"(", 
+         RowBox[{"1", "+", 
+          RowBox[{"alphaRho", " ", 
+           RowBox[{"Cos", "[", 
+            RowBox[{"omegaRho", " ", "t"}], "]"}]}]}], ")"}]}]}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"equations", "=", 
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"Sus", "'"}], "[", "t", "]"}], "==", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", 
+             RowBox[{"beta", "[", "t", "]"}]}], " ", 
+            RowBox[{"Sus", "[", "t", "]"}], " ", 
+            RowBox[{"Inf", "[", "t", "]"}]}], "+", 
+           RowBox[{
+            RowBox[{"gamma", "[", "t", "]"}], " ", 
+            RowBox[{"Inf", "[", "t", "]"}]}], "+", 
+           RowBox[{
+            RowBox[{"rho", "[", "t", "]"}], " ", 
+            RowBox[{"Rem", "[", "t", "]"}]}]}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Inf", "'"}], "[", "t", "]"}], "==", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"beta", "[", "t", "]"}], " ", 
+            RowBox[{"Sus", "[", "t", "]"}], " ", 
+            RowBox[{"Inf", "[", "t", "]"}]}], "-", 
+           RowBox[{
+            RowBox[{"gamma", "[", "t", "]"}], " ", 
+            RowBox[{"Inf", "[", "t", "]"}]}], "-", 
+           RowBox[{
+            RowBox[{"delta", "[", "t", "]"}], " ", 
+            RowBox[{"Inf", "[", "t", "]"}]}]}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Rem", "'"}], "[", "t", "]"}], "==", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"delta", "[", "t", "]"}], " ", 
+            RowBox[{"Inf", "[", "t", "]"}]}], "-", 
+           RowBox[{
+            RowBox[{"rho", "[", "t", "]"}], " ", 
+            RowBox[{"Rem", "[", "t", "]"}]}]}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Sus", "[", "0", "]"}], "==", "S0"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Inf", "[", "0", "]"}], "==", "I0"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Rem", "[", "0", "]"}], "==", "R0"}]}], "}"}]}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"solution", "=", 
+       RowBox[{"NDSolveValue", "[", 
+        RowBox[{
+         RowBox[{"{", "equations", "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"Sus", ",", "Inf", ",", "Rem"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"t", ",", "0", ",", "tMax"}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"solution", "===", 
+         RowBox[{"{", "}"}]}], ",", 
+        RowBox[{"{", "}"}], ",", "solution"}], "]"}]}]}], "]"}]}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]"}], "\n", 
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Module", "[", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "solution", ",", "Sus", ",", "Inf", ",", "Rem", ",", "plot", ",", 
+       "phasePlot", ",", "streamPlot"}], "}"}], ",", 
+     RowBox[{
+      RowBox[{"solution", "=", 
+       RowBox[{"ToothDecayModel", "[", 
+        RowBox[{
+        "beta0", ",", "alphaBeta", ",", "omegaBeta", ",", "gamma0", ",", 
+         "alphaGamma", ",", "omegaGamma", ",", "delta0", ",", "alphaDelta", 
+         ",", "lambdaDelta", ",", "rho0", ",", "alphaRho", ",", "omegaRho", 
+         ",", "S0", ",", "I0", ",", "R0", ",", "tMax"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"solution", "===", 
+         RowBox[{"{", "}"}]}], ",", 
+        RowBox[{"Style", "[", 
+         RowBox[{
+         "\"\<Error: The system could not be solved.\>\"", ",", "Red", ",", 
+          "Bold"}], "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"Sus", ",", "Inf", ",", "Rem"}], "}"}], "=", "solution"}], 
+         ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"plot", "=", 
+          RowBox[{"Plot", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Evaluate", "[", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Sus", "[", "t", "]"}], ",", 
+               RowBox[{"Inf", "[", "t", "]"}], ",", 
+               RowBox[{"Rem", "[", "t", "]"}]}], "}"}], "]"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"t", ",", "0", ",", "tMax"}], "}"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"PlotLegends", "->", 
+             RowBox[{"{", 
+              RowBox[{
+              "\"\<Susceptible (S)\>\"", ",", "\"\<Infected (I)\>\"", ",", 
+               "\"\<Removed (R)\>\""}], "}"}]}], ",", "\[IndentingNewLine]", 
+            RowBox[{"AxesLabel", "->", 
+             RowBox[{"{", 
+              RowBox[{"\"\<Time\>\"", ",", "\"\<Population Fractions\>\""}], 
+              "}"}]}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+            "PlotLabel", "->", 
+             "\"\<Tooth Decay Dynamics with Time-Varying Parameters\>\""}], 
+            ",", "\[IndentingNewLine]", 
+            RowBox[{"PlotRange", "->", 
+             RowBox[{"{", 
+              RowBox[{"0", ",", "1"}], "}"}]}], ",", "\[IndentingNewLine]", 
+            RowBox[{"ImageSize", "->", "Medium"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"phasePlot", "=", 
+          RowBox[{"ParametricPlot", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"Evaluate", "[", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Sus", "[", "t", "]"}], ",", 
+               RowBox[{"Inf", "[", "t", "]"}]}], "}"}], "]"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"t", ",", "0", ",", "tMax"}], "}"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"AxesLabel", "->", 
+             RowBox[{"{", 
+              RowBox[{
+              "\"\<Susceptible (S)\>\"", ",", "\"\<Infected (I)\>\""}], 
+              "}"}]}], ",", "\[IndentingNewLine]", 
+            RowBox[{"PlotLabel", "->", "\"\<Phase Plot: S vs. I\>\""}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"PlotRange", "->", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"0", ",", "1"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"0", ",", "1"}], "}"}]}], "}"}]}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"ImageSize", "->", "Medium"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"streamPlot", "=", 
+          RowBox[{"StreamPlot", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"-", "beta0"}], " ", "x", " ", "y"}], "+", 
+               RowBox[{"gamma0", " ", "y"}]}], ",", 
+              RowBox[{
+               RowBox[{"beta0", " ", "x", " ", "y"}], "-", 
+               RowBox[{"gamma0", " ", "y"}], "-", 
+               RowBox[{"delta0", " ", "y"}]}]}], "}"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"y", ",", "0", ",", "1"}], "}"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"StreamPoints", "->", "Fine"}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"AxesLabel", "->", 
+             RowBox[{"{", 
+              RowBox[{
+              "\"\<Susceptible (S)\>\"", ",", "\"\<Infected (I)\>\""}], 
+              "}"}]}], ",", "\[IndentingNewLine]", 
+            RowBox[{
+            "PlotLabel", "->", "\"\<Stream Plot: Phase Space Flow\>\""}], ",",
+             "\[IndentingNewLine]", 
+            RowBox[{"PlotRange", "->", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"0", ",", "1"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"0", ",", "1"}], "}"}]}], "}"}]}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"ImageSize", "->", "Medium"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"Grid", "[", 
+          RowBox[{"{", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"{", "plot", "}"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"{", "phasePlot", "}"}], ",", "\[IndentingNewLine]", 
+            RowBox[{"{", "streamPlot", "}"}]}], "\[IndentingNewLine]", "}"}], 
+          "]"}]}]}], "]"}]}]}], "]"}], ",", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "beta0", ",", "0.5", ",", 
+       "\"\<Base Plaque Formation Rate (beta0)\>\""}], "}"}], ",", "0.1", ",",
+      "1", ",", "0.05", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "alphaBeta", ",", "0.2", ",", 
+       "\"\<Plaque Rate Amplitude (alphaBeta)\>\""}], "}"}], ",", "0", ",", 
+     "1", ",", "0.05", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "omegaBeta", ",", "1", ",", 
+       "\"\<Plaque Rate Frequency (omegaBeta)\>\""}], "}"}], ",", "0.1", ",", 
+     "5", ",", "0.1", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "gamma0", ",", "0.1", ",", "\"\<Base Recovery Rate (gamma0)\>\""}], 
+      "}"}], ",", "0.01", ",", "0.5", ",", "0.01", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "alphaGamma", ",", "0.2", ",", 
+       "\"\<Recovery Rate Amplitude (alphaGamma)\>\""}], "}"}], ",", "0", ",",
+      "1", ",", "0.05", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "omegaGamma", ",", "1", ",", 
+       "\"\<Recovery Rate Frequency (omegaGamma)\>\""}], "}"}], ",", "0.1", 
+     ",", "5", ",", "0.1", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "delta0", ",", "0.05", ",", "\"\<Base Decay Rate (delta0)\>\""}], "}"}],
+      ",", "0.01", ",", "0.2", ",", "0.01", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "alphaDelta", ",", "0.2", ",", 
+       "\"\<Decay Rate Amplitude (alphaDelta)\>\""}], "}"}], ",", "0", ",", 
+     "1", ",", "0.05", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "lambdaDelta", ",", "0.1", ",", 
+       "\"\<Decay Exponential Factor (lambdaDelta)\>\""}], "}"}], ",", "0.01",
+      ",", "1", ",", "0.01", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "rho0", ",", "0.1", ",", "\"\<Base Remineralization Rate (rho0)\>\""}], 
+      "}"}], ",", "0.01", ",", "0.5", ",", "0.01", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "alphaRho", ",", "0.2", ",", 
+       "\"\<Remineralization Amplitude (alphaRho)\>\""}], "}"}], ",", "0", 
+     ",", "1", ",", "0.05", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "omegaRho", ",", "1", ",", 
+       "\"\<Remineralization Frequency (omegaRho)\>\""}], "}"}], ",", "0.1", 
+     ",", "5", ",", "0.1", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"S0", ",", "0.99", ",", "\"\<Initial Susceptible (S0)\>\""}], 
+      "}"}], ",", "0.8", ",", "1", ",", "0.01", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"I0", ",", "0.01", ",", "\"\<Initial Infected (I0)\>\""}], 
+      "}"}], ",", "0.01", ",", "0.2", ",", "0.01", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"R0", ",", "0", ",", "\"\<Initial Removed (R0)\>\""}], "}"}], 
+     ",", "0", ",", "0.2", ",", "0.01", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"tMax", ",", "50", ",", "\"\<Time Range (tMax)\>\""}], "}"}], 
+     ",", "10", ",", "100", ",", "5", ",", 
+     RowBox[{"Appearance", "->", "\"\<Open\>\""}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"ControlPlacement", "->", "Right"}]}], "]"}]}], "Input",
+ CellChangeTimes->{3.942739364976223*^9},
+ CellLabel->"In[4]:=",ExpressionUUID->"d8f29c4e-aec4-2741-9dad-02e072a16f13"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`alphaBeta$$ = 
+    0.2, $CellContext`alphaDelta$$ = 0.2, $CellContext`alphaGamma$$ = 
+    0.2, $CellContext`alphaRho$$ = 0.2, $CellContext`beta0$$ = 
+    0.5, $CellContext`delta0$$ = 0.05, $CellContext`gamma0$$ = 
+    0.1, $CellContext`I0$$ = 0.01, $CellContext`lambdaDelta$$ = 
+    0.1, $CellContext`omegaBeta$$ = 1, $CellContext`omegaGamma$$ = 
+    1, $CellContext`omegaRho$$ = 1, $CellContext`R0$$ = 
+    0, $CellContext`rho0$$ = 0.1, $CellContext`S0$$ = 
+    0.99, $CellContext`tMax$$ = 50, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`beta0$$], 0.5, "Base Plaque Formation Rate (beta0)"},
+       0.1, 1, 0.05, ControlType -> Manipulator}, {{
+       Hold[$CellContext`alphaBeta$$], 0.2, 
+       "Plaque Rate Amplitude (alphaBeta)"}, 0, 1, 0.05, ControlType -> 
+      Manipulator}, {{
+       Hold[$CellContext`omegaBeta$$], 1, 
+       "Plaque Rate Frequency (omegaBeta)"}, 0.1, 5, 0.1, ControlType -> 
+      Manipulator}, {{
+       Hold[$CellContext`gamma0$$], 0.1, "Base Recovery Rate (gamma0)"}, 0.01,
+       0.5, 0.01, ControlType -> Manipulator}, {{
+       Hold[$CellContext`alphaGamma$$], 0.2, 
+       "Recovery Rate Amplitude (alphaGamma)"}, 0, 1, 0.05, ControlType -> 
+      Manipulator}, {{
+       Hold[$CellContext`omegaGamma$$], 1, 
+       "Recovery Rate Frequency (omegaGamma)"}, 0.1, 5, 0.1, ControlType -> 
+      Manipulator}, {{
+       Hold[$CellContext`delta0$$], 0.05, "Base Decay Rate (delta0)"}, 0.01, 
+      0.2, 0.01, ControlType -> Manipulator}, {{
+       Hold[$CellContext`alphaDelta$$], 0.2, 
+       "Decay Rate Amplitude (alphaDelta)"}, 0, 1, 0.05, ControlType -> 
+      Manipulator}, {{
+       Hold[$CellContext`lambdaDelta$$], 0.1, 
+       "Decay Exponential Factor (lambdaDelta)"}, 0.01, 1, 0.01, ControlType -> 
+      Manipulator}, {{
+       Hold[$CellContext`rho0$$], 0.1, "Base Remineralization Rate (rho0)"}, 
+      0.01, 0.5, 0.01, ControlType -> Manipulator}, {{
+       Hold[$CellContext`alphaRho$$], 0.2, 
+       "Remineralization Amplitude (alphaRho)"}, 0, 1, 0.05, ControlType -> 
+      Manipulator}, {{
+       Hold[$CellContext`omegaRho$$], 1, 
+       "Remineralization Frequency (omegaRho)"}, 0.1, 5, 0.1, ControlType -> 
+      Manipulator}, {{
+       Hold[$CellContext`S0$$], 0.99, "Initial Susceptible (S0)"}, 0.8, 1, 
+      0.01, ControlType -> Manipulator}, {{
+       Hold[$CellContext`I0$$], 0.01, "Initial Infected (I0)"}, 0.01, 0.2, 
+      0.01, ControlType -> Manipulator}, {{
+       Hold[$CellContext`R0$$], 0, "Initial Removed (R0)"}, 0, 0.2, 0.01, 
+      ControlType -> Manipulator}, {{
+       Hold[$CellContext`tMax$$], 50, "Time Range (tMax)"}, 10, 100, 5, 
+      ControlType -> Manipulator}}, Typeset`size$$ = {
+    391.8799204853603, {361.3853464238685, 365.97089325081225`}}, 
+    Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = True, 
+    Typeset`keyframeActionsQ$$ = False, Typeset`keyframeList$$ = {}}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`alphaBeta$$ = 
+        0.2, $CellContext`alphaDelta$$ = 0.2, $CellContext`alphaGamma$$ = 
+        0.2, $CellContext`alphaRho$$ = 0.2, $CellContext`beta0$$ = 
+        0.5, $CellContext`delta0$$ = 0.05, $CellContext`gamma0$$ = 
+        0.1, $CellContext`I0$$ = 0.01, $CellContext`lambdaDelta$$ = 
+        0.1, $CellContext`omegaBeta$$ = 1, $CellContext`omegaGamma$$ = 
+        1, $CellContext`omegaRho$$ = 1, $CellContext`R0$$ = 
+        0, $CellContext`rho0$$ = 0.1, $CellContext`S0$$ = 
+        0.99, $CellContext`tMax$$ = 50}, "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$, Typeset`keyframeActionsQ$$, 
+        Typeset`keyframeList$$}, "Body" :> 
+      Module[{$CellContext`solution$, $CellContext`Sus$, $CellContext`Inf$, \
+$CellContext`Rem$, $CellContext`plot$, $CellContext`phasePlot$, \
+$CellContext`streamPlot$}, $CellContext`solution$ = \
+$CellContext`ToothDecayModel[$CellContext`beta0$$, $CellContext`alphaBeta$$, \
+$CellContext`omegaBeta$$, $CellContext`gamma0$$, $CellContext`alphaGamma$$, \
+$CellContext`omegaGamma$$, $CellContext`delta0$$, $CellContext`alphaDelta$$, \
+$CellContext`lambdaDelta$$, $CellContext`rho0$$, $CellContext`alphaRho$$, \
+$CellContext`omegaRho$$, $CellContext`S0$$, $CellContext`I0$$, \
+$CellContext`R0$$, $CellContext`tMax$$]; If[$CellContext`solution$ === {}, 
+          Style[
+          "Error: The system could not be solved.", Red, 
+           Bold], {$CellContext`Sus$, $CellContext`Inf$, $CellContext`Rem$} = \
+$CellContext`solution$; $CellContext`plot$ = Plot[
+             Evaluate[{
+               $CellContext`Sus$[$CellContext`t], 
+               $CellContext`Inf$[$CellContext`t], 
+               $CellContext`Rem$[$CellContext`t]}], {$CellContext`t, 
+              0, $CellContext`tMax$$}, 
+             PlotLegends -> {
+              "Susceptible (S)", "Infected (I)", "Removed (R)"}, 
+             AxesLabel -> {"Time", "Population Fractions"}, PlotLabel -> 
+             "Tooth Decay Dynamics with Time-Varying Parameters", 
+             PlotRange -> {0, 1}, ImageSize -> 
+             Medium]; $CellContext`phasePlot$ = ParametricPlot[
+             Evaluate[{
+               $CellContext`Sus$[$CellContext`t], 
+               $CellContext`Inf$[$CellContext`t]}], {$CellContext`t, 
+              0, $CellContext`tMax$$}, 
+             AxesLabel -> {"Susceptible (S)", "Infected (I)"}, PlotLabel -> 
+             "Phase Plot: S vs. I", PlotRange -> {{0, 1}, {0, 1}}, ImageSize -> 
+             Medium]; $CellContext`streamPlot$ = 
+           StreamPlot[{(-$CellContext`beta0$$) $CellContext`x $CellContext`y + \
+$CellContext`gamma0$$ $CellContext`y, $CellContext`beta0$$ $CellContext`x \
+$CellContext`y - $CellContext`gamma0$$ $CellContext`y - $CellContext`delta0$$ \
+$CellContext`y}, {$CellContext`x, 0, 1}, {$CellContext`y, 0, 1}, StreamPoints -> 
+             Fine, AxesLabel -> {"Susceptible (S)", "Infected (I)"}, 
+             PlotLabel -> "Stream Plot: Phase Space Flow", 
+             PlotRange -> {{0, 1}, {0, 1}}, ImageSize -> Medium]; 
+          Grid[{{$CellContext`plot$}, {$CellContext`phasePlot$}, \
+{$CellContext`streamPlot$}}]]], 
+      "Specifications" :> {{{$CellContext`beta0$$, 0.5, 
+          "Base Plaque Formation Rate (beta0)"}, 0.1, 1, 0.05, Appearance -> 
+         "Open"}, {{$CellContext`alphaBeta$$, 0.2, 
+          "Plaque Rate Amplitude (alphaBeta)"}, 0, 1, 0.05, Appearance -> 
+         "Open"}, {{$CellContext`omegaBeta$$, 1, 
+          "Plaque Rate Frequency (omegaBeta)"}, 0.1, 5, 0.1, Appearance -> 
+         "Open"}, {{$CellContext`gamma0$$, 0.1, 
+          "Base Recovery Rate (gamma0)"}, 0.01, 0.5, 0.01, Appearance -> 
+         "Open"}, {{$CellContext`alphaGamma$$, 0.2, 
+          "Recovery Rate Amplitude (alphaGamma)"}, 0, 1, 0.05, Appearance -> 
+         "Open"}, {{$CellContext`omegaGamma$$, 1, 
+          "Recovery Rate Frequency (omegaGamma)"}, 0.1, 5, 0.1, Appearance -> 
+         "Open"}, {{$CellContext`delta0$$, 0.05, "Base Decay Rate (delta0)"}, 
+         0.01, 0.2, 0.01, Appearance -> 
+         "Open"}, {{$CellContext`alphaDelta$$, 0.2, 
+          "Decay Rate Amplitude (alphaDelta)"}, 0, 1, 0.05, Appearance -> 
+         "Open"}, {{$CellContext`lambdaDelta$$, 0.1, 
+          "Decay Exponential Factor (lambdaDelta)"}, 0.01, 1, 0.01, 
+         Appearance -> 
+         "Open"}, {{$CellContext`rho0$$, 0.1, 
+          "Base Remineralization Rate (rho0)"}, 0.01, 0.5, 0.01, Appearance -> 
+         "Open"}, {{$CellContext`alphaRho$$, 0.2, 
+          "Remineralization Amplitude (alphaRho)"}, 0, 1, 0.05, Appearance -> 
+         "Open"}, {{$CellContext`omegaRho$$, 1, 
+          "Remineralization Frequency (omegaRho)"}, 0.1, 5, 0.1, Appearance -> 
+         "Open"}, {{$CellContext`S0$$, 0.99, "Initial Susceptible (S0)"}, 0.8,
+          1, 0.01, Appearance -> 
+         "Open"}, {{$CellContext`I0$$, 0.01, "Initial Infected (I0)"}, 0.01, 
+         0.2, 0.01, Appearance -> 
+         "Open"}, {{$CellContext`R0$$, 0, "Initial Removed (R0)"}, 0, 0.2, 
+         0.01, Appearance -> 
+         "Open"}, {{$CellContext`tMax$$, 50, "Time Range (tMax)"}, 10, 100, 5,
+          Appearance -> "Open"}}, "Options" :> {ControlPlacement -> Right}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{
+      719.0970545774187, {384.0683040131545, 388.65385084009824`}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.942739385294504*^9, 3.942739440951292*^9},
+ CellLabel->"Out[6]=",ExpressionUUID->"3bd85a8f-b241-8d4e-b69d-1d7be990ce1d"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1086.857142857143, 607.7142857142857},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+Magnification:>0.8 Inherited,
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"28ff48f8-4ae0-6c4d-8db7-e584fbae0d92"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 185, 3, 77, "Title",ExpressionUUID->"5129d3e4-b48a-0344-99e6-4210a7c6e795"],
+Cell[CellGroupData[{
+Cell[786, 29, 152, 3, 52, "Section",ExpressionUUID->"523de20f-8cc7-bd41-a893-7c060507e2d6"],
+Cell[CellGroupData[{
+Cell[963, 36, 15500, 396, 1209, "Input",ExpressionUUID->"d8f29c4e-aec4-2741-9dad-02e072a16f13"],
+Cell[16466, 434, 9279, 162, 807, "Output",ExpressionUUID->"3bd85a8f-b241-8d4e-b69d-1d7be990ce1d"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
